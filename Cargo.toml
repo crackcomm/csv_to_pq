@@ -1,0 +1,20 @@
+[package]
+name = "csv_to_pq"
+version = "0.0.1"
+authors = ["Łukasz Kurowski <crackcomm@gmail.com>"]
+edition = "2021"
+license = "MIT"
+description = "Polars DataFrame in OCaml."
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "csv_to_pq"
+path = "main.rs"
+
+[dependencies]
+polars = { version = "0.44.2", default-features = false, features = [
+  "parquet",
+  "csv",
+] }
+
+clap = { version = "*", features = ["derive"] }
