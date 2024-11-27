@@ -14,6 +14,7 @@
 //!     -s price \
 //!     -s qty \
 //!     -s is_bid \
+//!     --sort timestamp \
 //!     /tmp/test.pq
 //! ```
 
@@ -53,6 +54,8 @@ struct Cli {
     skip_rows: usize,
     #[clap(short, long)]
     select: Vec<String>,
+    #[clap(long)]
+    sort: Vec<String>,
     output: String,
 }
 
@@ -96,6 +99,12 @@ fn main() {
     let df = csv_reader.finish().unwrap();
 
     let mut df = df.select(&cli.select).unwrap();
+    let mut df = df
+        .sort_in_place(
+            &cli.sort,
+            SortMultipleOptions::new().with_maintain_order(true),
+        )
+        .unwrap();
 
     let f = File::create(&cli.output).expect("create failed");
 
